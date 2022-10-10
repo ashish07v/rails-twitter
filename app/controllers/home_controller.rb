@@ -8,7 +8,9 @@ class HomeController < ApplicationController
 		end
 		f_id = @following.pluck(:following_id)
 
-		# @usertweets = @users.tweets.order(updated_at: :desc) 
+		f_id<<@user.id
+
+		# @usertweets = @user.tweets.order(updated_at: :desc) 
 		@usertweets = Tweet.all.includes(:user).where(user_id: f_id).order(id: :desc) 
 	end 
 

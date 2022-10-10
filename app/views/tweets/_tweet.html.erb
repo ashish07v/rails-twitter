@@ -11,11 +11,16 @@
         <div class="post__header">
           <div class="post__headerText">
             <h3>
+
               <%= tweet.user.username%>
               <span class="post__headerSpecial"
               ><span class="material-icons post__badge"> verified </span></span
               >
+              <% if tweet.user.id == session[:user_id] %>
+          <span class="material-icons edit_tweet" > <%= link_to 'edit', show_modal_path(tweet), remote: true %> </span>
+          <% end %>
             </h3>
+            
           </div>
           <div class="post__headerDescription">
             <p><%=tweet.body%></p>
@@ -25,15 +30,15 @@
         <div class="post__footer">
           <span class="material-icons"> repeat </span>
           <span class="material-icons"> favorite_border </span>
-          <% if tweet.user.id == session[:user_id] %>
-          <span class="material-icons edit_tweet" > <%= link_to 'edit', show_modal_path(tweet), remote: true %> </span>
-          <% else %>
-          <span class="material-icons comment_tweet" > <%= link_to 'comment', show_comment_path(tweet), remote: true %> </span>
-          <% end %>
+          
+          <span class="material-icons comment_tweet" > <%= link_to 'comment', user_comment_path(tweet), remote: true %> </span>
+          
         </div>
+
         <div class="cmnt_id_<%=tweet.id%>">
-          <p>first comment</p>
-          <p>second comment</p>
+        <%tweet.comments.order('created_at DESC').each do |comment| %>        
+          <p><%= comment.comment%></p>        
+        <% end %>
         </div>
       </div>
     </div>

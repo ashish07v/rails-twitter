@@ -1,0 +1,17 @@
+<%= form_with(model: tweetlike, local: true) do |form| %>
+  <% if tweetlike.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tweetlike.errors.count, "error") %> prohibited this tweetlike from being saved:</h2>
+
+      <ul>
+      <% tweetlike.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

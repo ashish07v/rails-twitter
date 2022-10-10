@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
 
-    @following = @users.followers.pluck(:following_id)
+    @following = @user.followers.pluck(:following_id)
     @followed  = User.all.where(id: @following) 
-    @following << @users.id
+    @following << @user.id
     @users_all = User.all.where.not(id: @following) 
     
   end
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   end
 
   def follow_user
-    f = @users.followers.new
+    f = @user.followers.new
     f.following_id = params[:id]
     respond_to do |format|
       if f.save
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   end
 
   def unfollow
-    @users.followers.find_by(following_id: params[:id]).destroy
+    @user.followers.find_by(following_id: params[:id]).destroy
 
     respond_to do |format|
       format.html { redirect_to users_url, notice: "unfollowed successfully ." }

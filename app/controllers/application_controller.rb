@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 	# check user login status
 	def require_login
 		if session[:user_id]
-	      @users = User.find_by(id: session[:user_id])
-	      	if @users.blank?		      
+	      @user = User.find_by(id: session[:user_id])
+	      	if @user.blank?		      
 		      redirect_to root_url
 			end
 	    else
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 	end	
 
 	def all_following		
-	    @following = @users.followers	      	
+	    @following = @user.followers	      	
 	end	
 
 	def check_sign_in

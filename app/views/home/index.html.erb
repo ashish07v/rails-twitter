@@ -22,10 +22,10 @@
   <% #  session[:user_id]%> 
   <% # session[:user_name]%> 
   <% # session.inspect%>
-  <% # = @users.inspect  %>
+  <% # = @user.inspect  %>
 
   <div class="sidebar">
-    <i class="fab fa-twitter"> <%= @users.username.capitalize %></i>
+    <i class="fab fa-twitter"> <%= @user.username.capitalize %></i>
     <div class="sidebarOption active">
       <span class="material-icons"> home </span>
       <h2>Home</h2>
@@ -58,7 +58,7 @@
 
     <div class="sidebarOption">
       <span class="material-icons"> perm_identity </span>
-      <h2><%= link_to 'Profile', edit_user_path(@users)%></h2>
+      <h2><%= link_to 'Profile', edit_user_path(@user)%></h2>
     </div>
 
     <div class="sidebarOption">
@@ -77,13 +77,13 @@
 
     <!-- tweetbox starts -->
     <div class="tweetBox">
-      <%= form_for([@users, @users.tweets.build] ,:remote=>true) do |form| %>
-      <% if @users.tweets.build.errors.any? %>
+      <%= form_for([@user, @user.tweets.build] ,:remote=>true) do |form| %>
+      <% if @user.tweets.build.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(@users.tweets.build.errors.count, "error") %> prohibited this tweet from being saved:</h2>
+        <h2><%= pluralize(@user.tweets.build.errors.count, "error") %> prohibited this tweet from being saved:</h2>
 
         <ul>
-          <% @users.tweets.build.errors.full_messages.each do |message| %>
+          <% @user.tweets.build.errors.full_messages.each do |message| %>
           <li><%= message %></li>
           <% end %>
         </ul>

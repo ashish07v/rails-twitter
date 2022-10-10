@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :require_login
   before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :set_tweet, only: %i[ new user_comment user_create_comment]
 
   # GET /comments or /comments.json
   def index
@@ -15,19 +16,37 @@ class CommentsController < ApplicationController
   def new
     # byebug
     # @edit_tweet = @users.tweets.find_by(id: params[:id])
-    # @comment = Comment.new
+    
   end
 
   # GET /comments/1/edit
   def edit
   end
 
-  def show_comment    
-    @comment = Comment.new
+  def user_comment    
+    @comment = @tweet.comments.new
+  end
+
+  def user_create_comment   
+
+    @comment = @tweet.comments.new
+    @comment.comment = comment_params['comment']
+    @comment.user_id = @user.id
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to twitter_url, notice: "Comment was successfully created." }
+        format.json { render :show, status: :created, location: @comment }
+      else
+        format.html { redirect_to twitter_url, notice: "Request not completed." }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /comments or /comments.json
   def create
+    byebug
+    comment_params
     @comment = Comment.new(comment_params)
 
     respond_to do |format|
@@ -68,6 +87,10 @@ class CommentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+    end
+
+    def set_tweet
+      @tweet = Tweet.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
