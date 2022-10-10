@@ -23,7 +23,7 @@ class TweetsController < ApplicationController
   # POST /tweets or /tweets.json
   def create
     # @tweet = Tweet.new(tweet_params)
-    @tweet = @user.tweets.build(tweet_params)
+    @tweet = @users.tweets.build(tweet_params)
     @error = 'Invalid tweet'
     respond_to do |format|
       if @tweet.save

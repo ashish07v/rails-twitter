@@ -1,4 +1,6 @@
 class TweetlikesController < ApplicationController
+  before_action :require_login
+  before_action :set_tweet, only: %i[ user_like ]
   before_action :set_tweetlike, only: %i[ show edit update destroy ]
 
   # GET /tweetlikes or /tweetlikes.json
@@ -17,6 +19,23 @@ class TweetlikesController < ApplicationController
 
   # GET /tweetlikes/1/edit
   def edit
+  end
+
+
+  def user_like
+    # format.js { render @tweet}
+    @likes = @tweet.tweetlikes.new
+    @likes.likes = 1
+    @likes.user_id = @user.id
+    respond_to do |format|
+      if @likes.save
+        format.html { redirect_to twitter_url, notice: "You like the tweet." }
+        format.json { render :show, status: :created, location: @comment }
+      else
+        format.html { redirect_to twitter_url, notice: "Request not completed." }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /tweetlikes or /tweetlikes.json
@@ -61,6 +80,10 @@ class TweetlikesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tweetlike
       @tweetlike = Tweetlike.find(params[:id])
+    end
+
+    def set_tweet
+      @tweet = Tweet.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

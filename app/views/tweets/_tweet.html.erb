@@ -29,8 +29,11 @@
         </div>
         <div class="post__footer">
           <span class="material-icons"> repeat </span>
-          <span class="material-icons"> favorite_border </span>
-          
+          <% if @tweet_likes.include?tweet.id%>
+          <span class="material-icons" style="color: red;">favorite_border</span>
+          <% else %>
+          <span class="material-icons"><%= link_to 'favorite_border', user_like_path(tweet)%>  </span>
+          <% end %>
           <span class="material-icons comment_tweet" > <%= link_to 'comment', user_comment_path(tweet), remote: true %> </span>
           
         </div>
