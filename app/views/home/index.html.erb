@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+
+
+  <style type="text/css">
+
+    body {
+      display: flex !important;
+      height: 100vh;
+      max-width: 1300px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 10px;
+    }    
+
+</style>
+</head>
+<body>
+  <!-- sidebar starts -->
+  <% #  session[:user_id]%> 
+  <% # session[:user_name]%> 
+  <% # session.inspect%>
+  <% # = @users.inspect  %>
+
+  <div class="sidebar">
+    <i class="fab fa-twitter"> <%= @users.username.capitalize %></i>
+    <div class="sidebarOption active">
+      <span class="material-icons"> home </span>
+      <h2>Home</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> search </span>
+      <h2><%= link_to 'Explore', users_path%></h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> notifications_none </span>
+      <h2>Notifications</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> mail_outline </span>
+      <h2>Messages</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> bookmark_border </span>
+      <h2>Bookmarks</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> list_alt </span>
+      <h2>Lists</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> perm_identity </span>
+      <h2><%= link_to 'Profile', edit_user_path(@users)%></h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons"> logout </span>
+      <h2><%= link_to 'logout', logout_path %></h2>
+    </div>
+    <button class="sidebar__tweet">Tweet</button>
+  </div>
+  <!-- sidebar ends -->
+
+  <!-- feed starts -->
+  <div class="feed">
+    <div class="feed__header">
+      <h2>Home</h2>
+    </div>
+
+    <!-- tweetbox starts -->
+    <div class="tweetBox">
+      <%= form_for([@users, @users.tweets.build] ,:remote=>true) do |form| %>
+      <% if @users.tweets.build.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@users.tweets.build.errors.count, "error") %> prohibited this tweet from being saved:</h2>
+
+        <ul>
+          <% @users.tweets.build.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+      <div class="tweetbox__input">
+        <img
+        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+        alt=""
+        />
+        <%= form.text_field :body, placeholder: "What's happening?" %>
+      </div>
+      <!-- <button class="tweetBox__tweetButton">Tweet</button> -->
+      <div class="actions">
+        <%= form.submit 'Tweet', :class=>'tweetBox__tweetButton'%>
+      </div>
+      <% end %>
+    </div>
+
+
+   
+  
+
+    <% # = @usertweets.inspect %>
+    <!-- tweetbox ends -->
+    <%= render @usertweets , locals: {tweet: @usertweets} %>
+    <!-- post starts -->
+    <div class="post">
+      <div class="post__avatar">
+        <img
+        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+        alt=""
+        />
+      </div>
+
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              Somanath Goudar
+              <span class="post__headerSpecial"
+              ><span class="material-icons post__badge"> verified </span>@somanathg</span
+              >
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+        <img
+        src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
+        alt=""
+        />
+        <div class="post__footer">
+          <span class="material-icons"> repeat </span>
+          <span class="material-icons"> favorite_border </span>
+          <span class="material-icons"> publish </span>
+        </div>
+      </div>
+    </div>
+    <!-- post ends -->
+
+    <!-- post starts -->
+    <div class="post">
+      <div class="post__avatar">
+        <img
+        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+        alt=""
+        />
+      </div>
+
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              Somanath Goudar
+              <span class="post__headerSpecial"
+              ><span class="material-icons post__badge"> verified </span>@somanathg</span
+              >
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+        <img
+        src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
+        alt=""
+        />
+        <div class="post__footer">
+          <span class="material-icons"> repeat </span>
+          <span class="material-icons"> favorite_border </span>
+          <span class="material-icons"> publish </span>
+        </div>
+      </div>
+    </div>
+    <!-- post ends -->
+  </div>
+  <!-- feed ends -->
+
+  <!-- widgets starts -->
+  <div class="widgets">
+    <div class="widgets__input">
+      <span class="material-icons widgets__searchIcon"> search </span>
+      <input type="text" placeholder="Search Twitter" />
+    </div>
+
+    <div class="widgets__widgetContainer">
+      <h2>What's happening?</h2>
+      <blockquote class="twitter-tweet">
+        <p lang="en" dir="ltr">
+          Sunsets don&#39;t get much better than this one over
+          <a href="https://twitter.com/GrandTetonNPS?ref_src=twsrc%5Etfw">@GrandTetonNPS</a>.
+          <a href="https://twitter.com/hashtag/nature?src=hash&amp;ref_src=twsrc%5Etfw"
+          >#nature</a
+          >
+          <a href="https://twitter.com/hashtag/sunset?src=hash&amp;ref_src=twsrc%5Etfw"
+          >#sunset</a
+          >
+          <a href="http://t.co/YuKy2rcjyU">pic.twitter.com/YuKy2rcjyU</a>
+        </p>
+        &mdash; US Department of the Interior (@Interior)
+        <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw"
+        >May 5, 2014</a
+        >
+      </blockquote>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </div>
+  <!-- widgets ends -->
+
+  <!-- modal -->
+
+
+</body>
+
+<!-- script tag -->
+
+
+</html>

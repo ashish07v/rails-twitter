@@ -1,0 +1,40 @@
+<% if tweet.id%>
+<div class="post twt_id_<%=tweet.id%>">
+      <div class="post__avatar">
+        <img
+        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+        alt=""
+        />
+      </div>
+
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              <%= tweet.user.username%>
+              <span class="post__headerSpecial"
+              ><span class="material-icons post__badge"> verified </span></span
+              >
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p><%=tweet.body%></p>
+            <p><%=tweet.updated_at%></p>
+          </div>
+        </div>
+        <div class="post__footer">
+          <span class="material-icons"> repeat </span>
+          <span class="material-icons"> favorite_border </span>
+          <% if tweet.user.id == session[:user_id] %>
+          <span class="material-icons edit_tweet" > <%= link_to 'edit', show_modal_path(tweet), remote: true %> </span>
+          <% else %>
+          <span class="material-icons comment_tweet" > <%= link_to 'comment', show_comment_path(tweet), remote: true %> </span>
+          <% end %>
+        </div>
+        <div class="cmnt_id_<%=tweet.id%>">
+          <p>first comment</p>
+          <p>second comment</p>
+        </div>
+      </div>
+    </div>
+   <% end %> 
