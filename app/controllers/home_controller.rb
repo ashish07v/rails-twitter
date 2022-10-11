@@ -11,9 +11,12 @@ class HomeController < ApplicationController
 		f_id<<@user.id
 
 		# @usertweets = @user.tweets.order(updated_at: :desc) 
-		@usertweets = Tweet.all.includes(:user).where(user_id: f_id).order(id: :desc) 
-		tweet_ids = @usertweets.pluck(:id)
-		@tweet_likes = Tweetlike.all.where(user_id: @user.id, tweet_id: tweet_ids).pluck(:tweet_id)
+		@usertweets 	= Tweet.all.includes(:user).where(user_id: f_id).order(id: :desc) 
+		tweet_ids 		= @usertweets.pluck(:id)
+		# @tweet_likes = Tweetlike.all.where(user_id: @user.id, tweet_id: tweet_ids).pluck(:tweet_id)
+		@tweetlikes 	= Tweetlike.all.where(tweet_id: tweet_ids)
+		@tweetlikecount = @tweetlikes.group(:tweet_id, :likes).count
+		@userlikestweet = @tweetlikes.where(user_id: @user.id).group(:tweet_id, :likes).count
 	end 
 
 	def logout

@@ -23,7 +23,7 @@ class TweetsController < ApplicationController
   # POST /tweets or /tweets.json
   def create
     # @tweet = Tweet.new(tweet_params)
-    @tweet = @users.tweets.build(tweet_params)
+    @tweet = @user.tweets.new(tweet_params)
     @error = 'Invalid tweet'
     respond_to do |format|
       if @tweet.save
@@ -73,7 +73,7 @@ class TweetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
-      @tweet = Tweet.find(params[:id])
+      @tweet = @user.tweets.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -3,6 +3,9 @@
 
 $('#update_notice').text('Invalid Tweet for update').css('color','red');
 <% else %>
-$(".twt_id_<%=@tweet.id%>").html('<div class="post__avatar"><img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" /></div><div class="post__body"><div class="post__header"><div class="post__headerText"><h3><%=session[:user_name]%><span class="post__headerSpecial"><span class="material-icons post__badge"> verified </span></span></h3></div><div class="post__headerDescription"><p><%=@tweet.body%></p></div></div><div class="post__footer"><span class="material-icons"> repeat </span><span class="material-icons"> favorite_border </span> <span class="material-icons"> <%= link_to "edit", show_modal_path(@tweet), remote: true %>  </span> </div></div>');
+$(".twt_id_<%=@tweet.id%>").html('<div class="post__avatar"><img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" /></div><div class="post__body"><div class="post__header"><div class="post__headerText"><h3><%=session[:user_name]%><span class="post__headerSpecial"><span class="material-icons post__badge"> verified </span></span><span class="material-icons"> <%= link_to "edit", show_modal_path(@tweet), remote: true %>  </span></h3></div><div class="post__headerDescription"><p><%=@tweet.body%></p></div></div><div class="post__footer"><span class="material-icons"> repeat </span><span class="material-icons" style="color: #cf4f4"> thumb_down </span> <span class="material-icons"><%= link_to "thumb_up", user_like_path(@tweet)%>  </span> <span class="material-icons comment_tweet" > <%= link_to "comment", user_comment_path(@tweet), remote: true %> </span </div></div>');
 $('#update_notice').text('Tweet updated successfully').css('color','green');
 <% end %>
+
+
+$('.close').click();

@@ -1,6 +1,6 @@
 class TweetlikesController < ApplicationController
   before_action :require_login
-  before_action :set_tweet, only: %i[ user_like ]
+  before_action :set_tweet, only: %i[ user_like user_dislike]
   before_action :set_tweetlike, only: %i[ show edit update destroy ]
 
   # GET /tweetlikes or /tweetlikes.json
@@ -22,20 +22,38 @@ class TweetlikesController < ApplicationController
   end
 
 
-  def user_like
+  def user_like(ulike = 1, msg = "You like the tweet.") 
     # format.js { render @tweet}
-    @likes = @tweet.tweetlikes.new
-    @likes.likes = 1
-    @likes.user_id = @user.id
-    respond_to do |format|
-      if @likes.save
-        format.html { redirect_to twitter_url, notice: "You like the tweet." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { redirect_to twitter_url, notice: "Request not completed." }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+    prelikes        = @tweet.tweetlikes.find_by(user_id: @user.id)
+
+    if prelikes.nil?
+      @likes          = @tweet.tweetlikes.new
+      @likes.likes    = ulike
+      @likes.user_id  = @user.id
+      respond_to do |format|
+        if @likes.save
+          format.html { redirect_to twitter_url, notice:  msg}
+          format.json { render :show, status: :created, location: @comment }
+        else
+          format.html { redirect_to twitter_url, notice: "Request not completed." }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    else      
+      respond_to do |format|
+        if prelikes.update(likes: ulike)
+          format.html { redirect_to twitter_url, notice: msg }
+          format.json { render :show, status: :created, location: @comment }
+        else
+          format.html { redirect_to twitter_url, notice: "Request not completed." }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
+  end
+
+  def user_dislike
+    user_like(2, "You dislike the tweet.")
   end
 
   # POST /tweetlikes or /tweetlikes.json

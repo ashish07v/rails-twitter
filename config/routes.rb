@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'show_modal/:id', to: 'tweets#show_modal', as: :show_modal
   get 'user_comment/:id', to: 'comments#user_comment', as: :user_comment
   get 'user_like/:id', to: 'tweetlikes#user_like', as: :user_like
+  get 'user_dislike/:id', to: 'tweetlikes#user_dislike', as: :user_dislike
   post 'user_create_comment/:id', to: 'comments#user_create_comment', as: :user_create_comment
   # get 'comment/:id', to: 'tweets#comment', as: :comment
 

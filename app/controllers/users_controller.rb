@@ -24,6 +24,9 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def sign_in
+    # session[:user_id] = ''
+    # session.delete(:user_id)
+    # reset_session
     @user = User.new
   end
 
