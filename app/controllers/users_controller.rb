@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :require_login,  only: %i[ index follow_user unfollow]
+  before_action :require_login,  only: %i[ index follow_user unfollow new_topic create_topic topic]
   before_action :check_sign_in,  only: %i[ sign_in ] 
 
   # GET /users or /users.json
@@ -32,6 +32,11 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @usertweets     = @user.tweets.all.order(id: :desc)
+    tweet_ids       = @usertweets.pluck(:id)
+    @tweetlikes     = Tweetlike.all.where(tweet_id: tweet_ids)
+    @tweetlikecount = @tweetlikes.group(:tweet_id, :likes).count
+    @userlikestweet = @tweetlikes.where(user_id: @user.id).group(:tweet_id, :likes).count
   end
 
   def follow_user
@@ -77,21 +82,51 @@ class UsersController < ApplicationController
     end
   end
 
-
   # post/users/login
   def user_login
     @user = User.find_by(username: params[:user][:username])
     if @user.try(:authenticate, params[:user][:password])
-    # if @user
-    reset_session
-    session[:user_id]   = @user.id
-    session[:user_name] = @user.username
-    redirect_to twitter_url
-  else
-        # format.html { redirect_to sign_in_url, notice: "Invalid credential." }
-        redirect_to sign_in_url+"?error"
+      # if @user
+      reset_session
+      session[:user_id]   = @user.id
+      session[:user_name] = @user.username
+      redirect_to twitter_url
+    else
+      # format.html { redirect_to sign_in_url, notice: "Invalid credential." }
+      redirect_to sign_in_url+"?error"
+    end
+  end
+
+  def new_topic
+    @topic      = @user.topics.new
+    topic(@user.id)
+  end 
+
+  def create_topic
+    @topic = @user.topics.new(topic_params)
+    @error = 'Invalid topic'
+    respond_to do |format|
+      if @topic.save
+        # format.js { render @topic}
+        format.html { redirect_to new_topic_user_url(@user), notice: "Topic was successfully created." }
+        # format.json { render :show, status: :created, location: @topic }
+      else
+        # format.js { render @topic}
+        format.html { redirect_to new_topic_user_url(@user), notice: "Error" }
+        # format.json { render json: @topic.errors, status: :unprocessable_entity }
       end
     end
+  end 
+
+  def topic(id=nil)
+    if !id.nil?
+      @my_topics  =  @user.topics.all.order(id: :desc)
+    else
+      @my_topics  =  Topic.all.order(id: :desc)
+    end  
+    @topic_id = @user.topic_followers.all.pluck(:topic_id)
+  end 
+
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
@@ -124,6 +159,10 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:username, :password)
+      params.require(:user).permit(:username, :password, :topic_name)
+    end
+
+    def topic_params
+      params.require(:topic).permit(:topic_name)
     end
   end

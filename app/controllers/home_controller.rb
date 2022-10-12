@@ -10,6 +10,7 @@ class HomeController < ApplicationController
 
 		f_id<<@user.id
 
+		# ======== for tweet start here ================ 
 		# @usertweets = @user.tweets.order(updated_at: :desc) 
 		@usertweets 	= Tweet.all.includes(:user).where(user_id: f_id).order(id: :desc) 
 		tweet_ids 		= @usertweets.pluck(:id)
@@ -17,6 +18,9 @@ class HomeController < ApplicationController
 		@tweetlikes 	= Tweetlike.all.where(tweet_id: tweet_ids)
 		@tweetlikecount = @tweetlikes.group(:tweet_id, :likes).count
 		@userlikestweet = @tweetlikes.where(user_id: @user.id).group(:tweet_id, :likes).count
+
+		#======== topics start here =======================
+		@topic = @user.topics.all.order(id: :desc)
 	end 
 
 	def logout

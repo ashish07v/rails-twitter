@@ -1,0 +1,12 @@
+
+<% topic.each do |review| %>
+<tr>
+        <td><%= review.topic_name %></td>
+        <td><%= link_to 'follow', follow_topic_path(review) %></td>    
+      </tr>
+
+<% end %>
+
+
+    
+  

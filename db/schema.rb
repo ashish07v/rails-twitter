@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_10_125109) do
+ActiveRecord::Schema.define(version: 2022_10_12_124238) do
 
   create_table "comments", force: :cascade do |t|
     t.string "comment"
@@ -28,6 +28,23 @@ ActiveRecord::Schema.define(version: 2022_10_10_125109) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_followers_on_user_id"
+  end
+
+  create_table "topic_followers", force: :cascade do |t|
+    t.integer "topic_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_topic_followers_on_topic_id"
+    t.index ["user_id"], name: "index_topic_followers_on_user_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "topic_name"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_topics_on_user_id"
   end
 
   create_table "tweetlikes", force: :cascade do |t|

@@ -30,21 +30,21 @@
         <div class="post__footer">
           <span class="material-icons"> repeat </span>
           <!-- show dislike thumb -->
-          <% if @userlikestweet[[tweet.id, 2]] %>
+          <% if @userlikestweet.present? && @userlikestweet[[tweet.id, 2]] %>
             <span class="material-icons" style="color:red;"> thumb_down</span>
           <% else %>
             <span class="material-icons"> <%= link_to 'thumb_down', user_dislike_path(tweet) %></span>
           <% end %>
           <!-- show dislike thumb count -->
-          <span class="count" > <%= @tweetlikecount[[tweet.id, 2]] ? @tweetlikecount[[tweet.id, 2]] : 0 %> </span>
+          <span class="count" > <% if @tweetlikecount.present? %><%= @tweetlikecount[[tweet.id, 2]] ? @tweetlikecount[[tweet.id, 2]] : 0 %><% else %> 0<% end %></span>
           <!-- show like thumb -->
-          <% if @userlikestweet[[tweet.id, 1]] %>
+          <% if @userlikestweet.present? && @userlikestweet[[tweet.id, 1]] %>
             <span class="material-icons" style="color:green;"> thumb_up</span>
           <% else %>
             <span class="material-icons"> <%= link_to 'thumb_up', user_like_path(tweet) %></span>
           <% end %>
           <!-- show like thumb count -->
-          <%= @tweetlikecount[[tweet.id, 1]] ? @tweetlikecount[[tweet.id, 1]] : 0 %>
+          <% if @tweetlikecount.present? %><%= @tweetlikecount[[tweet.id, 1]] ? @tweetlikecount[[tweet.id, 1]] : 0 %><% else %> 0<% end %>
           <!-- comment -->
           <span class="material-icons comment_tweet" > <%= link_to 'comment', user_comment_path(tweet), remote: true %> </span>
           

@@ -36,7 +36,7 @@
       <h2><%= link_to 'Explore', users_path%></h2>
     </div>
 
-    <div class="sidebarOption">
+    <!-- <div class="sidebarOption">
       <span class="material-icons"> notifications_none </span>
       <h2>Notifications</h2>
     </div>
@@ -44,16 +44,16 @@
     <div class="sidebarOption">
       <span class="material-icons"> mail_outline </span>
       <h2>Messages</h2>
-    </div>
+    </div> -->
 
     <div class="sidebarOption">
       <span class="material-icons"> bookmark_border </span>
-      <h2>Bookmarks</h2>
+      <h2><%= link_to 'Create Topic', new_topic_user_path(@user)%></h2>
     </div>
 
     <div class="sidebarOption">
       <span class="material-icons"> list_alt </span>
-      <h2>Lists</h2>
+      <h2><%= link_to 'Topic List', topic_user_path(@user)%> </h2>
     </div>
 
     <div class="sidebarOption">

@@ -22,19 +22,14 @@ class TweetsController < ApplicationController
 
   # POST /tweets or /tweets.json
   def create
-    # @tweet = Tweet.new(tweet_params)
+    
     @tweet = @user.tweets.new(tweet_params)
     @error = 'Invalid tweet'
     respond_to do |format|
       if @tweet.save
-        format.js { render @tweet}
-        # format.html { redirect_to twitter_url(@tweet), notice: "Tweet was successfully created." }
-        # format.json { render :show, status: :created, location: @tweet }
+        format.js { render @tweet}        
       else
-        # format.js { render 'users/show_updated_view'}
-        format.js { render @tweet}
-        # format.html { redirect_to twitter_url(@tweet), notice: "Error" }
-        # format.json { render json: @tweet.errors, status: :unprocessable_entity }
+        format.js { render @tweet}        
       end
     end
   end
@@ -69,6 +64,35 @@ class TweetsController < ApplicationController
   def show_modal    
     @edit_tweet = @user.tweets.find_by(id: params[:id])    
   end  
+
+
+  def follow_topic
+      respond_to do |format|
+      if !@user.topic_followers.find_by(topic_id: params[:id]).present?
+        @topic = Topic.find_by(id: params[:id])
+        
+          if @topic
+            tf = @topic.topic_followers.new
+            tf.user_id = @user.id
+
+            if tf.save
+              format.html { redirect_to topic_user_url(@user), notice: "You followed on topic." }
+              # format.json { render :show, status: :ok, location: @tweet }
+              # format.js { render update}            
+            else
+              format.html { redirect_to topic_user_url(@user), notice: "Error, please try again." }
+              # format.json { render json: @tweet.errors, status: :unprocessable_entity }
+            end
+          else
+            format.html { redirect_to topic_user_url(@user), notice: "Not able to follow the topic." }
+          end
+
+        else
+          format.html { redirect_to topic_user_url(@user), notice: "allready followed." }
+        end
+     end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

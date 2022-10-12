@@ -1,0 +1,6 @@
+<h1> Create Topic </h1>
+
+<%= render 'topic', user: @topic , url_add: create_topic_user_path, button_name: 'Create Topic'%>
+<%= render 'all_topic', topic: @my_topics %>
+
+<%= link_to 'Back', twitter_path %>
