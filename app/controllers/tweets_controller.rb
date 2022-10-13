@@ -66,8 +66,18 @@ class TweetsController < ApplicationController
   end  
 
 
-  def follow_topic
+  def unfollow_topic
       respond_to do |format|
+        if @user.topic_followers.find_by(topic_id: params[:id]).destroy        
+          format.html { redirect_to topic_user_url(@user), notice: "unfollowed successfully." }              
+        else
+          format.html { redirect_to topic_user_url(@user), notice: "Invalid action." }
+        end
+     end
+  end
+
+  def follow_topic
+    respond_to do |format|
       if !@user.topic_followers.find_by(topic_id: params[:id]).present?
         @topic = Topic.find_by(id: params[:id])
         
@@ -93,6 +103,21 @@ class TweetsController < ApplicationController
      end
   end
 
+  def topic_tweet
+    t = @user.topics.find_by(id: params[:id])
+    if t.present?
+      id = t.topic_followers.all.pluck(:user_id)
+      if id.present?
+        @tweet = Tweet.all.where(user_id: id)
+        tweet_ids     = @tweet.pluck(:id)
+        # @tweet_likes = Tweetlike.all.where(user_id: @user.id, tweet_id: tweet_ids).pluck(:tweet_id)
+        @tweetlikes   = Tweetlike.all.where(tweet_id: tweet_ids)
+        @tweetlikecount = @tweetlikes.group(:tweet_id, :likes).count
+        @userlikestweet = @tweetlikes.where(user_id: @user.id).group(:tweet_id, :likes).count
+
+      end
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

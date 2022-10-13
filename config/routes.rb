@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
 
   get 'follow_topic/:id', to: 'tweets#follow_topic', as: :follow_topic
+  get 'unfollow_topic/:id', to: 'tweets#unfollow_topic', as: :unfollow_topic
+  get 'topic_tweet/:id', to: 'tweets#topic_tweet', as: :topic_tweet
   get 'show_modal/:id', to: 'tweets#show_modal', as: :show_modal
   get 'user_comment/:id', to: 'comments#user_comment', as: :user_comment
   get 'user_like/:id', to: 'tweetlikes#user_like', as: :user_like

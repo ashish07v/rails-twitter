@@ -1,6 +1,17 @@
 <h1> Create Topic </h1>
 
 <%= render 'topic', user: @topic , url_add: create_topic_user_path, button_name: 'Create Topic'%>
+<table>
+  <thead>
+    <tr>
+      <th>Topic name</th>
+      <th > action</th>
+    </tr>
+  </thead>
+
+  <tbody>
 <%= render 'all_topic', topic: @my_topics %>
+</tbody>
+</table>
 
 <%= link_to 'Back', twitter_path %>

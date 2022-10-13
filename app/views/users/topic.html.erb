@@ -13,10 +13,12 @@
 <% # = render 'all_topic', topic: @my_topics %>
 <% @my_topics.each do |review| %>
 	<tr>
-	    <td><%= review.topic_name %></td>
+	    
 	    <% if @topic_id.include?(review.id)%>
-	    <td><%= link_to 'unfollow', follow_topic_path(review) %></td> 
+	    <td><%= link_to review.topic_name, topic_tweet_path(review) %></td>
+	    <td><%= link_to 'unfollow', unfollow_topic_path(review) %></td> 
 	    <% else %>
+	    <td><%= review.topic_name %></td>
 	    <td><%= link_to 'follow', follow_topic_path(review) %></td> 
 	    <% end %>   
 	 </tr>

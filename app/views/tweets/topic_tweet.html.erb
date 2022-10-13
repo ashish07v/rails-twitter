@@ -1,0 +1,9 @@
+<h1>Topic Tweets</h1>
+<% if @tweet.present?%>
+<%= render @tweet , locals: {tweet: @tweet} %>
+<% else %>
+Tweet not found for this topic
+<% end %>
+<br>
+<%= link_to 'Back', topic_user_path(@user) %>
+<%= link_to 'Home', twitter_path %>
