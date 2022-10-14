@@ -108,6 +108,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @topic.save
         # format.js { render @topic}
+        TweetTestJob.perform_now(@topic.id, @user.id)
+   
         format.html { redirect_to new_topic_user_url(@user), notice: "Topic was successfully created." }
         # format.json { render :show, status: :created, location: @topic }
       else

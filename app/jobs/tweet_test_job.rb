@@ -9,8 +9,14 @@ class TweetTestJob < ApplicationJob
   #   p "around_perform"
   # end
 
-  def perform(*args)
-    p "new job"
+  def perform(id,uid)
+    topic = Topic.find_by(id: id)
+        
+        if topic
+          tf = topic.topic_followers.new
+          tf.user_id = uid
+          tf.save
+        end
   end
 
 

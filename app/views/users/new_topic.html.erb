@@ -10,7 +10,14 @@
   </thead>
 
   <tbody>
-<%= render 'all_topic', topic: @my_topics %>
+<% # = render 'all_topic', topic: @my_topics %>
+<% @my_topics.each do |review| %>
+<tr>
+        <td><%= review.topic_name %></td>
+        <td></td>    
+      </tr>
+
+<% end %>
 </tbody>
 </table>
 
