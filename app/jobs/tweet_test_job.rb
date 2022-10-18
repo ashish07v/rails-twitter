@@ -1,5 +1,7 @@
-class TweetTestJob < ApplicationJob
-  queue_as :default
+class TweetTestJob
+  @queue = :default
+
+  # queue_as :default
 
   # before_enqueue do |job|
   #   p "before_enqueue job"
@@ -9,7 +11,9 @@ class TweetTestJob < ApplicationJob
   #   p "around_perform"
   # end
 
-  def perform(id,uid)
+  def self.perform(id,uid)
+  # def perform(id,uid)
+    # byebug
     topic = Topic.find_by(id: id)
         
         if topic

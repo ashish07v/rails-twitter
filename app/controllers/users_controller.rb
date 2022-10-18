@@ -108,7 +108,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @topic.save
         # format.js { render @topic}
-        TweetTestJob.perform_now(@topic.id, @user.id)
+        # TweetTestJob.perform_now(@topic.id, @user.id)
+        # TweetTestJob.set(wait: 1.minutes).perform_later(@topic.id, @user.id)
+
+        Resque.enqueue_at(1.minutes.from_now,TweetTestJob, @topic.id, @user.id)
+        # Resque.enqueue(TweetTestJob, @topic.id, @user.id)
    
         format.html { redirect_to new_topic_user_url(@user), notice: "Topic was successfully created." }
         # format.json { render :show, status: :created, location: @topic }

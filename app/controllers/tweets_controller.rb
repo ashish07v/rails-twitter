@@ -104,10 +104,10 @@ class TweetsController < ApplicationController
   end
 
   def topic_tweet
-    t = @user.topics.find_by(id: params[:id])
+    t = Topic.find_by(id: params[:id])
     if t.present?
       id = t.topic_followers.all.pluck(:user_id)
-      if id.present?
+      if id.include? @user.id
         @tweet = Tweet.all.where(user_id: id)
         tweet_ids     = @tweet.pluck(:id)
         # @tweet_likes = Tweetlike.all.where(user_id: @user.id, tweet_id: tweet_ids).pluck(:tweet_id)
